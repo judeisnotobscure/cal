@@ -1,0 +1,28 @@
+{% extends "../base.html" %}
+
+{% block body_block %}
+{%load widget_tweaks%}
+
+<div class = 'container'>
+<h1>Model: {{ object.instrument_model }}</h1>
+<h1>Serial Number: {{ object.serial_number }}</h1>
+<p>Current Cal-Due: {{ object.cal_due }}</p>
+<!-- old notes overwritten with form submission -->
+<p>Notes: {{ object.notes }}</p> 
+
+</div>
+
+
+<div class= 'container'>
+    <h1>Update Fields</h1>
+    <form method = 'post'>
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type='submit' class = 'btn btn-primary' value = 'Submit'>
+    </form>
+    
+
+</div>
+
+
+{% endblock %}   

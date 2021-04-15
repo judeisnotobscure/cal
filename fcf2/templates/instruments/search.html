@@ -1,0 +1,76 @@
+{% extends "../base.html" %}
+
+{% block body_block %}
+{%load widget_tweaks%}
+{% comment %} <form method="get">
+    {{ filter.form.as_p }}
+    {% csrf_token %}
+    
+    <button type="submit">Search</button>
+  </form> {% endcomment %}
+  <form method="get">
+    <div class="well">
+      <h4 style="margin-top: 0">Search</h4>
+      <div class="row">
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.serial_number.label_tag }}
+          {% render_field filter.form.serial_number class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.instrument_model.label_tag }}
+          {% render_field filter.form.instrument_model class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+            {{ filter.form.location.label_tag }}
+            {% render_field filter.form.location class="form-control" %}
+          </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.owner.label_tag }}
+          {% render_field filter.form.owner class="form-control" %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.status.label_tag }}
+          {% render_field filter.form.status class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.contam_status.label_tag }}
+          {% render_field filter.form.contam_status class="form-control" %}
+        </div>
+        <div class="form-group col-sm-8 col-md-3"default='Year(4 digit)-Month-Day'>
+          {{ filter.form.cal_due.label_tag }}
+          {%render_field filter.form.cal_due class="form-control"%}      
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-search"></span> Search
+      </button>
+    </div>
+  </form>
+  <h2>
+  Instrument Matches 
+  </h2>
+  <table class="table">
+  <tr>
+  <th>Serial Number (Click to Update)</th>
+  <th>Instrument Model</th>
+  <th>Location</th>
+  <th>Owner</th>
+  <th>Contam Status</th>
+  <th>Cal Due</th>
+  </tr>
+  
+  {% for file in filter.qs %}
+    <tr>
+    <td><a href="{%url 'update_detail' file.slug %}">  {{file.serial_number}}  </a></td>
+    <td>{{ file.instrument_model}}</td> 
+    <td>{{ file.location}}</td> 
+    <td>{{ file.owner }}</td>
+    <td>{{ file.contam_status }}</td>
+    <td>{{file.cal_due}}</td>
+    </tr>
+  {% endfor %}
+  
+  </table>
+{% endblock %}   
